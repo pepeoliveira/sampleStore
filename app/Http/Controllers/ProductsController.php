@@ -278,7 +278,7 @@ class ProductsController extends Controller
 
 
         $total_stock = ProductsAttribute::where('product_id',$id)->sum('stock');
-
+        //abc
         return view('products.detail')->with(compact('productDetails','categories','total_stock'));
 
     }
