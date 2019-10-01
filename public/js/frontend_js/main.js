@@ -28,7 +28,7 @@ $(document).ready(function(){
 		});
 	});
 });
-
+// Change Price & Stock with Size
 $(document).ready(function(){
     $("#selSize").change(function () {
        const idSize = $(this).val();
@@ -40,10 +40,27 @@ $(document).ready(function(){
            url:'/get-product-price',
            data:{ idSize:idSize },
            success: function(resp) {
-               $("#getPrice").html("€ " + resp);
+               const arr = resp.split('#');
+               $("#getPrice").html("€ " + arr[0]);
+               $("#price").val(arr[0]);
+               if(arr[1]==0){
+                   $('#cartButton').hide();
+                   $('#Availability').text("Out of Stock");
+               }else{
+                   $('#cartButton').show();
+                   $('#Availability').text("In Stock");
+               }
            },error: function() {
                alert("Error");
            }
        })
+    });
+});
+
+// REPLACE MAIN IMAGE WITH ALTERNATE IMAGE
+$(document).ready(function () {
+    $(".changeImage").click(function () {
+        var image = $(this).attr('src');
+        $("#mainImage").attr("src", image);
     });
 });

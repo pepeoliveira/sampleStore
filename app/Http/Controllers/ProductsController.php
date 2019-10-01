@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\ProductImage;
 use App\ProductsAttribute;
 use Illuminate\Http\Request;
 use Auth;
-use Session;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Contracts\Session\Session;
 use Intervention\Image\Facades\Image;
 use App\Product;
+
 
 class ProductsController extends Controller
 {
@@ -107,7 +110,11 @@ class ProductsController extends Controller
                 }
             }
 
-
+            if (empty($data['status'])){
+                $status = 0;
+            } else{
+                $status = 1;
+            }
 
             Product::where(['id'=>$id])->update([
                 'category_id'=>$data['category_id'],
@@ -117,7 +124,8 @@ class ProductsController extends Controller
                 'description'=>$data['description'],
                 'care'=>$data['care'],
                 'price'=>$data['price'],
-                'image'=>$filename]);
+                'image'=>$filename,
+                'status'=>$status]);
 
             return redirect()->back()->with('flash_message_success','Product has been updated successfully!');
         }
@@ -203,6 +211,21 @@ class ProductsController extends Controller
 
             foreach ($data['sku'] as $key => $val){
                 if(!empty($val)){
+                    // SKU Check
+                    $attrCountSKU = ProductsAttribute::where('sku', $val)->count();
+                    if ($attrCountSKU > 0) {
+                        return redirect('admin/add-attributes/' . $id)
+                            ->with('flash_message_error', 'SKU already exists! Please add a different SKU');
+                    }
+
+                    // Product Size Check
+                    $attrCountSize = ProductsAttribute::where(['product_id' => $id, 'size' => $data['size'][$key]])->count();
+                    if ($attrCountSize > 0) {
+                        return redirect('admin/add-attributes/' . $id)
+                            ->with('flash_message_error', '"' . $data['size'][$key] .
+                                '" Size already exists for this product! Please add a different Size');
+                    }
+
                     $attribute = new ProductsAttribute;
                     $attribute->product_id = $id;
                     $attribute->sku = $val;
@@ -239,6 +262,74 @@ class ProductsController extends Controller
         }
     }
 
+    // ADD IMAGES
+    public function addImages(Request $request, $id = null)
+    {
+        $productDetails = Product::where(['id' => $id])->first();
+        $categoryDetails = Category::where(['id' => $productDetails->category_id])->first();
+        $category_name = $categoryDetails->name;
+
+        if ($request->isMethod('post')) {
+            $data = $request->all();
+            if ($request->hasFile('image')) {
+                $files = $request->file('image');
+                foreach ($files as $file) {
+                    // Upload images after resizing
+                    $image = new ProductImage;
+                    $extension = $file->getClientOriginalExtension();
+                    $fileName = rand(111, 99999) . '.' . $extension;
+                    $large_image_path = 'images/backend_images/products/large/' . $fileName;
+                    $medium_image_path = 'images/backend_images/products/medium/' . $fileName;
+                    $small_image_path = 'images/backend_images/products/small/' . $fileName;
+                    Image::make($file)->save($large_image_path);
+                    Image::make($file)->resize(600, 600)->save($medium_image_path);
+                    Image::make($file)->resize(300, 300)->save($small_image_path);
+                    $image->image = $fileName;
+                    $image->product_id = $data['product_id'];
+                    $image->save();
+                }
+            }
+            return redirect('admin/add-images/' . $id)->with('flash_message_success', 'Product Images added successfully!');
+        }
+
+        $productImages = ProductImage::where(['product_id' => $id])->orderBy('id', 'DESC')->get();
+        $title = "Add Images";
+        return view('admin.products.add_images')->with(compact('title', 'productDetails', 'category_name', 'productImages'));
+
+        return view('admin.products.add_images')->with(compact('productDetails', 'productImages'));
+    }
+
+    public function deleteAltImage($id = null)
+    {
+        // Get Product Image Name
+        $productImage = ProductImage::where(['id' => $id])->first();
+
+        //Get Product Image Paths
+        $large_image_path = 'imagens/backend_images/products/large/';
+        $medium_image_path = 'imagens/backend_images/products/medium/';
+        $small_image_path = 'imagens/backend_images/products/small/';
+
+        // Delete Large Image if not exists in folder
+        if (file_exists($large_image_path . $productImage->image)) {
+            unlink($large_image_path . $productImage->image);
+        }
+
+        // Delete Medium Image if not exists in folder
+        if (file_exists($medium_image_path . $productImage->image)) {
+            unlink($medium_image_path . $productImage->image);
+        }
+
+        // Delete Small Image if not exists in folder
+        if (file_exists($small_image_path . $productImage->image)) {
+            unlink($small_image_path . $productImage->image);
+        }
+
+        // Delete Image
+        ProductImage::where(['id' => $id])->delete();
+        return redirect()->back()->with('flash_message_success', 'Product Alternate Image has been deleted successfully!');
+    }
+
+    // PRODUCTS
     public function products($url = null){
         //get all categories and subcategories
         $categories = Category::with('categories')->where(['parent_id'=>0])->get();
@@ -268,18 +359,31 @@ class ProductsController extends Controller
     }
 
     public function product($id = null){
+        // 404 Page is product is disabled
+        $productsCount = Product::where(['id'=>$id,'status'=>1])->count();
+        if($productsCount == 0){
+            abort(404);
+        }
+
+
         //Get Product Details
         $productDetails = Product::with('attributes')->where('id',$id)->first();
         $productDetails = json_decode(json_encode($productDetails));
         //echo "<pre>"; print_r($productDetails); die;
 
+        // Related Products
+        $relatedProducts = Product::where('id','!=', $id)->where(['category_id'=>$productDetails->category_id])->get();
+
+
         // Get All Categories and Sub Categories
         $categories = Category::with('categories')->where(['parent_id'=>0])->get();
 
+        // Get Product Alternate Images
+        $productAltImages = ProductImage::where('product_id',$id)->get();
 
         $total_stock = ProductsAttribute::where('product_id',$id)->sum('stock');
         //abc
-        return view('products.detail')->with(compact('productDetails','categories','total_stock'));
+        return view('products.detail')->with(compact('productDetails','categories','total_stock','productAltImages','relatedProducts'));
 
     }
 
@@ -288,6 +392,48 @@ class ProductsController extends Controller
         $proArr = explode("-",$data['idSize']);
         $proAttr = ProductsAttribute::where(['product_id' => $proArr[0],'size' => $proArr[1]])->first();
         echo $proAttr->price;
+        echo "#";
+        echo $proAttr->stock;
+
     }
 
+
+    // CART
+
+    public function addtocart(Request $request){
+        $data = $request->all();
+
+        if(empty($data['user_email'])){
+            $data['user_email'] = '';
+        }
+
+        $session_id = session()->get('session_id');
+        if(empty($session_id)){
+            $session_id = rand();
+            session()->put('session_id',$session_id);
+        }
+
+
+        $sideArr = explode("-",$data['size']);
+
+        DB::table('cart')->insert([
+            'product_id'=>$data['product_id'],
+            'product_name'=>$data['product_name'],
+            'product_code'=>$data['product_code'],
+            'product_color'=>$data['product_color'],
+            'size'=>$sideArr[1],
+            'price'=>$data['price'],
+            'quantity'=>$data['quantity'],
+            'user_email'=>$data['user_email'],
+            'session_id'=>$session_id
+        ]);
+
+        return redirect('cart')->with('flash_message_success','Product has been added in your Cart!');
+    }
+
+    public function cart(){
+        $session_id = session()->get('session_id');
+        $userCart = DB::table('cart')->where(['session_id'=>$session_id])->get();
+        return view ('products.cart');
+    }
 }

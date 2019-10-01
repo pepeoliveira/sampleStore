@@ -73,13 +73,20 @@
                                     </div>
                                 </div>
                                 <div class="control-group">
-                                    <label class="control-label">File upload input</label>
+                                    <label class="control-label">Image</label>
                                     <div class="controls">
                                         <input type="file" name="image" id="image">
                                         <input type="hidden" name="current_image" value="{{ $productDetails->image }}">
                                         @if(!empty($productDetails->image))
                                             <img style="width: 30px" src="{{ asset('/images/backend_images/products/small/'.$productDetails->image) }}"> | <a href="{{ url('admin/delete-product-image/'.$productDetails->id) }}">Delete</a>
                                         @endif
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label class="control-label">Enable</label>
+                                    <div class="controls">
+                                        <input type="checkbox" name="status" id="status"
+                                               @if($productDetails->status=="1") checked @endif value="1">
                                     </div>
                                 </div>
                                 <div class="form-actions">

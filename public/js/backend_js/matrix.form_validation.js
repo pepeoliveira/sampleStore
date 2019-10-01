@@ -293,4 +293,66 @@ $(document).ready(function () {
 
 
     });
+
+    // ---- DELETE ATTRIBUTE ---------
+
+
+    $(".deleteAtt").click(function () {
+        var id = $(this).attr('rel');
+        var deleteFunction = $(this).attr('rel1');
+
+        Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }
+            , function () {
+                window.location.href = "/admin/" + deleteFunction + "/" + id;
+
+            }).then(function(result) {
+            if (result.value) {
+                Swal.fire(
+                    'Deleted!',
+                    'Your file has been deleted.',
+                    'success'
+                )
+            }
+        })
+    });
+
+    // DELETE ALTERNATE IMAGE
+
+    $(".deleteAltImage").click(function () {
+
+        var id = $(this).attr('rel');
+        var deleteFunction = $(this).attr('rel1');
+
+        Swal.fire(
+            {
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }
+        ).then(function(result) {
+            if (result.value) {
+                Swal.fire(
+                    'Deleted!',
+                    'Your file has been deleted.',
+                    'success'
+                ) , function () {
+                    window.location.href = "/admin/" + deleteFunction + "/" + id;
+
+                }
+            }
+        })
+    });
+
 });

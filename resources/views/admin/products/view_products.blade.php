@@ -56,11 +56,19 @@
 
                                         </td>
                                         <td class="ml-5 text-center">
-                                            <a href="{{ url('admin/edit-product/'.$product->id) }}" ><i style="color: orange; transform: scale(1.6); margin-right: 5px" class="far fa-edit" ></i></a>
-                                            <a id="delPro"  href="{{ url('admin/delete-product/'.$product->id) }}">
-                                               <i class="fas fa-trash-alt "  style="color: red; transform: scale(1.6)"></i></a>
-                                            <a href="{{ url('admin/add-attributes/'.$product->id) }}"> <i class="fas fa-plus-circle"  style="color: red; transform: scale(1.6)"></i></a></a>
-                                            <a href="#" data-toggle="modal" data-target="#info_product">info</a>
+                                            <a class="btn btn-mini" href="{{ url('admin/edit-product/'.$product->id) }}" > Edit Product</a>
+                                            <br>
+                                            <a class="btn btn-mini text-danger" id="delPro"  href="{{ url('admin/delete-product/'.$product->id) }}">
+                                                Delete Product</a>
+                                            <br>
+                                            <a class="btn btn-mini" href="{{ url('admin/add-attributes/'.$product->id) }}">
+                                                Add Attribute</a>
+                                            {{--                                            Tab separada para adicionar imagens alternativas--}}
+                                            <br>
+                                            <a class="btn btn-mini" href="{{ url('admin/add-images/'.$product->id) }}">
+                                                Add Image</a>
+                                            <br>
+                                            <a class="btn btn-mini" href="#" data-toggle="modal" data-target="#info_product">Product Info</a>
                                         </td>
                                     </tr>
                                 @endforeach
