@@ -1,6 +1,6 @@
 @extends('layouts.adminLayout.admin_design')
 @section('content')
-// OLA PEPE
+    // OLA Feature
     <div id="content">
         <div id="content-header">
             <div id="breadcrumb"> <a href="{{ url('admin/dashboard') }}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#">Banners</a> <a href="#" class="current">Add Banner</a> </div>
