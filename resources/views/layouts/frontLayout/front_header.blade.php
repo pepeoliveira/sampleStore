@@ -1,7 +1,7 @@
 @php
-// CORRIGIR PARA INJECT ***********************************************
-    use App\Http\Controllers\Controller;
-    $mainCategories = Controller::MainCategories()
+    // CORRIGIR PARA INJECT ***********************************************
+        use App\Http\Controllers\Controller;
+        $mainCategories = Controller::MainCategories()
 
 @endphp
 
@@ -73,7 +73,12 @@
                             <li><a href="#"><i class="fa fa-star"></i> Wishlist</a></li>
                             <li><a href="checkout.html"><i class="fa fa-crosshairs"></i> Checkout</a></li>
                             <li><a href="cart.html"><i class="fa fa-shopping-cart"></i> Cart</a></li>
-                            <li><a href="login.html"><i class="fa fa-lock"></i> Login</a></li>
+                            @if(empty(Auth::check()))
+                                <li><a href="{{url('/login-register')}}"><i class="fa fa-lock"></i> Login</a></li>
+                            @else
+                                <li><a href="{{url('/account')}}"><i class="fa fa-user"></i> Account</a></li>
+                                <li><a href="{{url('/user-logout')}}"><i class="fa fa-sign-out"></i> Logout</a></li>
+                            @endif
                         </ul>
                     </div>
                 </div>
@@ -85,7 +90,8 @@
                 <div class="row">
                     <div class="col-sm-9">
                         <div class="navbar-header">
-                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                                    data-target=".navbar-collapse">
                                 <span class="sr-only">Toggle navigation</span>
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span>
@@ -97,11 +103,13 @@
                                 <li><a href="#" class="active">Home</a></li>
                                 <li class="dropdown"><a href="#">Shop<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
-                                    @foreach($mainCategories as $category)
-                                        @if($category->status=="1")
-                                        <li><a href="{{ asset('products/'.$category->url) }}">{{ $category->name }}</a></li>
-                                        @endif
-                                    @endforeach
+                                        @foreach($mainCategories as $category)
+                                            @if($category->status=="1")
+                                                <li>
+                                                    <a href="{{ asset('products/'.$category->url) }}">{{ $category->name }}</a>
+                                                </li>
+                                            @endif
+                                        @endforeach
                                     </ul>
                                 </li>
 {{--                                <li class="dropdown"><a href="#">Blog<i class="fa fa-angle-down"></i></a>--}}

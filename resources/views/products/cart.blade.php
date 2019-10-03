@@ -34,6 +34,7 @@
                     </tr>
                     </thead>
                     <tbody>
+                    @foreach($userCart as $cart)
                         {{ $total_amount = 0 }}
                         @foreach($userCart as $cart)
 
