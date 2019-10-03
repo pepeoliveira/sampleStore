@@ -1,0 +1,39 @@
+.branco{
+    color: white;
+}
+
+.caixote{
+    color: green;
+    font-size: 18px;
+    padding: 0px 5px;
+    margin: 10px 0px;
+}
+
+.caixote2{
+opacity: 0.5;
+padding: 0px 5px;
+margin: 10px 0px;
+}
+
+.caixote3{
+color: green;
+padding: 0px 5px;
+margin: 5px 0px;
+font-weight: 600;
+}
+
+
+#pre-header.topHeader{
+padding: 0rem!important;
+height: 30px!important;
+background-image: linear-gradient(to top,rgba(0,160,0,0.3),#5cb85c)!important;
+text-align: center;
+
+}
+
+#pre-header.topHeader.campanha{
+background-image: linear-gradient(to top, #ffc107,white)!important;
+}
+
+#pre-header a{color: white!important;}
+#pre-header a:hover{text-decoration: none;}

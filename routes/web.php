@@ -36,6 +36,8 @@ Route::get('products/{url}','ProductsController@products');
 //Product Detail Page
 Route::get('product/{id}','ProductsController@product');
 
+//Get Product Attribute PRice
+Route::any('/get-product-price','ProductsController@getProductPrice');
 
 // Add to Cart Route
 Route::match(['get','post'],'/add-cart','ProductsController@addtocart');
@@ -43,9 +45,15 @@ Route::match(['get','post'],'/add-cart','ProductsController@addtocart');
 // Cart Page
 Route::match(['get','post'],'/cart','ProductsController@cart');
 
+// Delete item from cart
+Route::match(['get','post'],'/cart/delete-product/{id}','ProductsController@deleteCartProduct');
 
-//Get Product Attribute PRice
-Route::any('/get-product-price','ProductsController@getProductPrice');
+// Update quantity in cart
+Route::get('/cart/update-quantity/{id}/{quantity}','ProductsController@updateCartQuantity');
+
+// Checkout Page
+Route::match(['get','post'],'/checkout','ProductsController@checkout');
+
 
 Route::group(['middleware' => ['auth']], function(){
 

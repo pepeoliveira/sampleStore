@@ -64,3 +64,13 @@ $(document).ready(function () {
         $("#mainImage").attr("src", image);
     });
 });
+
+//Shipping / Billing
+$(document).ready(function () {
+    $("#copyAddress").click(function(){
+        if(this.checked){
+            $("#shipping_name").val($("billing_name").val());
+        }
+    });
+});
+

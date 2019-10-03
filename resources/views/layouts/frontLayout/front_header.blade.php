@@ -20,11 +20,11 @@
                 <div class="col-sm-6">
                     <div class="social-icons pull-right">
                         <ul class="nav navbar-nav">
-                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                            <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-                            <li><a href="#"><i class="fa fa-dribbble"></i></a></li>
-                            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                            <li><a href="#"><i class="fab fa-facebook"></i></a></li>
+                            <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                            <li><a href="#"><i class="fab fa-linkedin"></i></a></li>
+                            <li><a href="#"><i class="fab fa-dribbble"></i></a></li>
+                            <li><a href="#"><i class="fab fa-google-plus"></i></a></li>
                         </ul>
                     </div>
                 </div>
@@ -35,35 +35,38 @@
     <div class="header-middle"><!--header-middle-->
         <div class="container">
             <div class="row">
-                <div class="col-sm-4">
+                <div class="col-sm-5">
                     <div class="logo pull-left">
-                        <a href="index.html"><img src="{{ asset('images/frontend_images/home/logo.png') }}" alt="" /></a>
+                        <a href="index.html"><img src="{{ asset('images/frontend_images/home/logo3.png') }}" alt="" /></a>
                     </div>
                     <div class="btn-group pull-right">
                         <div class="btn-group">
                             <button type="button" class="btn btn-default dropdown-toggle usa" data-toggle="dropdown">
-                                USA
+                                Europe
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a href="#">Canada</a></li>
+                                <li><a href="#">America</a></li>
                                 <li><a href="#">UK</a></li>
+                                <li><a href="#">South Asia</a></li>
+                                <li><a href="#">Australia</a></li>
                             </ul>
                         </div>
 
                         <div class="btn-group">
                             <button type="button" class="btn btn-default dropdown-toggle usa" data-toggle="dropdown">
-                                DOLLAR
+                                Euro
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a href="#">Canadian Dollar</a></li>
+                                <li><a href="#">American Dollar</a></li>
                                 <li><a href="#">Pound</a></li>
+                                <li><a href="#">SGP Dollar</a></li>
                             </ul>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-8">
+                <div class="col-sm-7">
                     <div class="shop-menu pull-right">
                         <ul class="nav navbar-nav">
                             <li><a href="#"><i class="fa fa-user"></i> Account</a></li>
@@ -91,7 +94,7 @@
                         </div>
                         <div class="mainmenu pull-left">
                             <ul class="nav navbar-nav collapse navbar-collapse">
-                                <li><a href="index.html" class="active">Home</a></li>
+                                <li><a href="#" class="active">Home</a></li>
                                 <li class="dropdown"><a href="#">Shop<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
                                     @foreach($mainCategories as $category)
@@ -101,20 +104,20 @@
                                     @endforeach
                                     </ul>
                                 </li>
-                                <li class="dropdown"><a href="#">Blog<i class="fa fa-angle-down"></i></a>
-                                    <ul role="menu" class="sub-menu">
-                                        <li><a href="blog.html">Blog List</a></li>
-                                        <li><a href="blog-single.html">Blog Single</a></li>
-                                    </ul>
-                                </li>
+{{--                                <li class="dropdown"><a href="#">Blog<i class="fa fa-angle-down"></i></a>--}}
+{{--                                    <ul role="menu" class="sub-menu">--}}
+{{--                                        <li><a href="blog.html">Blog List</a></li>--}}
+{{--                                        <li><a href="blog-single.html">Blog Single</a></li>--}}
+{{--                                    </ul>--}}
+{{--                                </li>--}}
                                 <li><a href="404.html">404</a></li>
                                 <li><a href="contact-us.html">Contact</a></li>
                             </ul>
                         </div>
                     </div>
                     <div class="col-sm-3">
-                        <div class="search_box pull-right">
-                            <input type="text" placeholder="Search"/>
+                        <div class="search_box pull-right" style="color: #003C71">
+                            <input type="text" placeholder="Search" style="color: #003C71"/>
                         </div>
                     </div>
                 </div>

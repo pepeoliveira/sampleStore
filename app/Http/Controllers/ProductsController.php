@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Contracts\Session\Session;
 use Intervention\Image\Facades\Image;
 use App\Product;
+use App\User;
+use App\Country;
 
 
 class ProductsController extends Controller
@@ -79,7 +81,7 @@ class ProductsController extends Controller
         // Categories drop down end
         return view('admin.products.add_product',['categories_dropdown'=>$categories_dropdown]);
     }
-    public function editProduct(Request $request, $id=null){
+    public function editProduct(Request $request, $id){
 
         if($request->isMethod('post')){
             $data = $request->all();
@@ -165,11 +167,11 @@ class ProductsController extends Controller
         }
         return view('admin.products.view_products')->with(compact('products'));
     }
-    public function deleteProduct(Request $request, $id=null){
+    public function deleteProduct(Request $request, $id){
         Product::where(['id'=>$id])->delete();
         return redirect()->back()->with('flash_message_success','Product has been delete successfully!');
     }
-    public function deleteProductImage($id = null){
+    public function deleteProductImage($id){
 
         // Get Product Image Name
         $productImage=Product::where(['id'=>$id])->first();
@@ -203,7 +205,7 @@ class ProductsController extends Controller
     // ATTRIBUTES
 
     // ADD ATTRIBUTE
-    public function addAttribute(Request $request, $id=null){
+    public function addAttribute(Request $request, $id){
         $productDetails = Product::with(['attributes'])->where(['id'=>$id])->first();
 //        $productDetails = json_decode(json_encode($productDetails));
         if($request->isMethod('post')){
@@ -244,12 +246,12 @@ class ProductsController extends Controller
 
     // DELETE ATTRIBUTE
 
-    public function deleteAttribute($id = null){
+    public function deleteAttribute($id){
         ProductsAttribute::where(['id'=>$id])->delete();
         return redirect()->back()->with('flash_message_success','Attribute has been deleted successfully!');
     }
 
-    public function editAttributes(Request $request, $id=null){
+    public function editAttributes(Request $request, $id){
         if($request->isMethod('post')){
             $data = $request->all();
             foreach ($data['idAttr'] as $key => $attr) {
@@ -263,7 +265,7 @@ class ProductsController extends Controller
     }
 
     // ADD IMAGES
-    public function addImages(Request $request, $id = null)
+    public function addImages(Request $request, $id)
     {
         $productDetails = Product::where(['id' => $id])->first();
         $categoryDetails = Category::where(['id' => $productDetails->category_id])->first();
@@ -299,7 +301,7 @@ class ProductsController extends Controller
         return view('admin.products.add_images')->with(compact('productDetails', 'productImages'));
     }
 
-    public function deleteAltImage($id = null)
+    public function deleteAltImage($id)
     {
         // Get Product Image Name
         $productImage = ProductImage::where(['id' => $id])->first();
@@ -330,7 +332,7 @@ class ProductsController extends Controller
     }
 
     // PRODUCTS
-    public function products($url = null){
+    public function products($url){
         //get all categories and subcategories
         $categories = Category::with('categories')->where(['parent_id'=>0])->get();
 
@@ -358,7 +360,7 @@ class ProductsController extends Controller
 
     }
 
-    public function product($id = null){
+    public function product($id){
         // 404 Page is product is disabled
         $productsCount = Product::where(['id'=>$id,'status'=>1])->count();
         if($productsCount == 0){
@@ -416,17 +418,29 @@ class ProductsController extends Controller
 
         $sideArr = explode("-",$data['size']);
 
-        DB::table('cart')->insert([
+        $countProducts = DB::table('cart')->where([
             'product_id'=>$data['product_id'],
-            'product_name'=>$data['product_name'],
-            'product_code'=>$data['product_code'],
             'product_color'=>$data['product_color'],
             'size'=>$sideArr[1],
-            'price'=>$data['price'],
-            'quantity'=>$data['quantity'],
-            'user_email'=>$data['user_email'],
             'session_id'=>$session_id
-        ]);
+        ])->count();
+
+        if($countProducts>0){
+             return redirect()->back()->with('flash_message_error','Item already exists in your cart!');
+        }else{
+              $getSKU = ProductsAttribute::select('sku')->where(['product_id'=>$data['product_id'],'size'=>$sideArr[1],])->first();
+
+            DB::table('cart')->insert([
+                'product_id'=>$data['product_id'],
+                'product_name'=>$data['product_name'],
+                'product_code'=>$getSKU->sku,
+                'product_color'=>$data['product_color'],
+                'size'=>$sideArr[1],
+                'price'=>$data['price'],
+                'quantity'=>$data['quantity'],
+                'user_email'=>$data['user_email'],
+                'session_id'=>$session_id
+        ]);}
 
         return redirect('cart')->with('flash_message_success','Product has been added in your Cart!');
     }
@@ -434,6 +448,39 @@ class ProductsController extends Controller
     public function cart(){
         $session_id = session()->get('session_id');
         $userCart = DB::table('cart')->where(['session_id'=>$session_id])->get();
-        return view ('products.cart');
+        foreach($userCart as $key => $product){
+            $productDetails = Product::where('id',$product->product_id)->first();
+            $userCart[$key]->image = $productDetails->image;
+        }
+        return view ('products.cart')->with(compact('userCart'));
+    }
+
+    public function deleteCartProduct($id){
+        DB::table('cart')->where('id',$id)->delete();
+        return redirect()->back()->with('flash_message_success','Product has been deleted from your cart successfully!');
+    }
+
+    public function updateCartQuantity($id,$quantity){
+
+        $getCartDetails = DB::table('cart')->where('id',$id)->first();
+        $getAttributeStock = ProductsAttribute::where('sku',$getCartDetails->product_code)->first();
+        $getAttributeStock->stock ;
+        $updated_quantity = $getCartDetails->quantity+$quantity ;
+        if($getAttributeStock->stock >= $updated_quantity) {
+            DB::table('cart')->where('id', $id)->increment('quantity', $quantity);
+            return redirect('cart')->with('flash_message_success', 'Product Quantity has been updated successfully!');
+        }else{
+            return redirect('cart')->with('flash_message_error', "Required Product Quantity isn't available!");
+        }
+
+    }
+
+    // CHECKOUT
+
+    public function checkout(){
+        $user_id = Auth::user()->id;
+        $userDetails = User::find($user_id);
+        $country = Country::get();
+        return view ('products.checkout',['userDetails' => $userDetails,'country'=>$country]);
     }
 }
