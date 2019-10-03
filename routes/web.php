@@ -43,9 +43,35 @@ Route::match(['get','post'],'/add-cart','ProductsController@addtocart');
 // Cart Page
 Route::match(['get','post'],'/cart','ProductsController@cart');
 
-
 //Get Product Attribute PRice
 Route::any('/get-product-price','ProductsController@getProductPrice');
+
+///******  USER ROUTES ********************
+
+// Users Login/Register Page
+Route::get('/login-register','UsersController@userLoginRegister');
+
+// Users Register Form Submit
+Route::post('/user-register','UsersController@register');
+
+// Check if User already exists
+Route::match(['GET','POST'],'/check-email', 'UsersController@checkEmail');
+
+// Users LOGIN
+Route::post('/user-login','UsersController@login');
+
+// Users LOGOUT
+Route::get('/user-logout','UsersController@logout');
+
+// **** ROUTES AFTER LOGIN
+Route::group(['middleware'=>['frontlogin']],function(){
+    // Users ACCOUNT PAGE
+    Route::match(['GET','POST'],'account','UsersController@account');
+    Route::post('/check-user-pwd','UsersController@chkUserPassword');
+    Route::post('/update-user-pwd','UsersController@updatePassword');
+});
+
+//**********************************//
 
 Route::group(['middleware' => ['auth']], function(){
 
@@ -82,7 +108,11 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/admin/delete-banner/{id}','BannersController@deleteBanner');
 
 
+
+
 } );
+
+
 
 Route::get('/logout','AdminController@logout');
 

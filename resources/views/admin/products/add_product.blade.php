@@ -26,7 +26,7 @@
                             <h5>Add Product</h5>
                         </div>
                         <div class="widget-content nopadding">
-                            <form enctype="multipart/form-data" class="form-horizontal" method="post" action="{{ url('/a ) }}" name="add_product" id="add_product" novalidate="novalidate">{{ csrf_field() }}
+                            <form enctype="multipart/form-data" class="form-horizontal" method="post" action="{{ url('/admin/add-product' ) }}" name="add_product" id="add_product" novalidate="novalidate">{{ csrf_field() }}
                                 <div class="control-group">
                                     <label class="control-label">Category</label>
                                     <div class="controls">
@@ -75,14 +75,8 @@
                                 <div class="control-group">
                                     <label class="control-label">Image</label>
                                     <div class="controls">
-                                        <div class="uploader" id="uniform-undefined"><input type="file" size="19" name="image" id="image" style="opacity: 0;"><span class="filename">No file selected</span><span class="action">Choose File</span></div>
-                                    </div>
-                                </div>
-                                <div class="control-group">
-                                    <label class="control-label">Enable</label>
-                                    <div class="controls">
-                                        <input type="checkbox" name="status" id="status"
-                                               @if($productDetails->status=="1") checked @endif value="1">
+                                        <div class="uploader" id="uniform-undefined"><input type="file" size="19" name="image" id="image" style="opacity: 0;">
+                                            <span class="filename">No file selected</span><span class="action">Choose File</span></div>
                                     </div>
                                 </div>
                                 <div class="form-actions">
