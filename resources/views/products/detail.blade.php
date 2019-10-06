@@ -65,7 +65,7 @@
                                     <h2>{{ $productDetails->product_name }}</h2>
                                     <p>CODE: {{ $productDetails->product_code }}</p>
                                     <p>
-                                        <select id="selSize" name="size" style="width: 100px">
+                                        <select REQUIRED id="selSize" name="size" style="width: 100px">
 
                                             <option value="">Select Size</option>
                                             @foreach($productDetails->attributes as $sizes)

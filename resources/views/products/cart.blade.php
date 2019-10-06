@@ -24,7 +24,7 @@
                 @endif
                 <table class="table table-condensed">
                     <thead>
-                    <tr class="cart_menu"  style="background-color: #0072B6">
+                    <tr class="cart_menu" style="background-color: #0072B6">
                         <td class="image">Item</td>
                         <td class="description"></td>
                         <td class="price">Price</td>
@@ -35,39 +35,50 @@
                     </thead>
                     <tbody>
                     @foreach($userCart as $cart)
-                        {{ $total_amount = 0 }}
+                        @php
+                            $total_amount = 0;
+                        @endphp
                         @foreach($userCart as $cart)
+                            <tr>
+                                <td class="cart_product">
+                                    <a href=""><img style="width:100px; border: 1px solid black"
+                                                    src="{{ asset('images/backend_images/products/small/'.$cart->image) }}"
+                                                    alt=""></a>
+                                </td>
+                                <td class="cart_description">
+                                    <h4><a href="">{{ $cart->product_name }}</a></h4>
+                                    <p>{{ $cart->product_code }} | {{ $cart->size }}</p>
+                                </td>
+                                <td class="cart_price">
+                                    <p>€ {{ $cart->price }}</p>
+                                </td>
+                                <td class="cart_quantity">
+                                    <div class="cart_quantity_button">
+                                        <a class="cart_quantity_up"
+                                           href="{{ url('/cart/update-quantity/'.$cart->id.'/1') }}"> + </a>
+                                        <input class="cart_quantity_input" type="text" name="quantity"
+                                               value="{{ $cart->quantity }}" autocomplete="off" size="2">
+                                        @if($cart->quantity>1)
+                                            <a class="cart_quantity_down"
+                                               href="{{ url('/cart/update-quantity/'.$cart->id.'/-1') }}"> - </a>
+                                        @endif
+                                    </div>
+                                </td>
+                                <td class="cart_total">
+                                    <p style="color: #0072B6" class="cart_total_price">
+                                        € {{ $cart->price*$cart->quantity }}</p>
+                                </td>
+                                <td class="cart_delete">
+                                    <a style="color: red" class="cart_quantity_delete"
+                                       href="{{ url('/cart/delete-product/'.$cart->id) }}"><i
+                                            class="fa fa-times"></i></a>
+                                </td>
+                            </tr>
+                            @php
+                                $total_amount = $total_amount + ($cart->price * $cart->quantity)
+                            @endphp
 
-                        <tr>
-                            <td class="cart_product">
-                                <a href=""><img style="width:100px; border: 1px solid black"  src="{{ asset('images/backend_images/products/small/'.$cart->image) }}" alt=""></a>
-                            </td>
-                            <td class="cart_description">
-                                <h4><a href="">{{ $cart->product_name }}</a></h4>
-                                <p>{{ $cart->product_code }} | {{ $cart->size }}</p>
-                            </td>
-                            <td class="cart_price" >
-                                <p>€ {{ $cart->price }}</p>
-                            </td>
-                            <td class="cart_quantity">
-                                <div class="cart_quantity_button">
-                                    <a class="cart_quantity_up" href="{{ url('/cart/update-quantity/'.$cart->id.'/1') }}"> + </a>
-                                    <input class="cart_quantity_input" type="text" name="quantity" value="{{ $cart->quantity }}" autocomplete="off" size="2">
-                                    @if($cart->quantity>1)
-                                        <a class="cart_quantity_down" href="{{ url('/cart/update-quantity/'.$cart->id.'/-1') }}"> - </a>
-                                    @endif
-                                </div>
-                            </td>
-                            <td class="cart_total">
-                                <p  style="color: #0072B6" class="cart_total_price">€ {{ $cart->price*$cart->quantity }}</p>
-                            </td>
-                            <td class="cart_delete">
-                                <a  style="color: red"class="cart_quantity_delete" href="{{ url('/cart/delete-product/'.$cart->id) }}"><i class="fa fa-times"></i></a>
-                            </td>
-                        </tr>
-                        {{ $total_amount = $total_amount + ($cart->price * $cart->quantity) }}
                         @endforeach
-
                     </tbody>
                 </table>
             </div>
@@ -78,7 +89,8 @@
         <div class="container">
             <div class="heading">
                 <h3>What would you like to do next?</h3>
-                <p>Choose if you have a discount code or reward points you want to use or would like to estimate your delivery cost.</p>
+                <p>Choose if you have a discount code or reward points you want to use or would like to estimate your
+                    delivery cost.</p>
             </div>
             <div class="row">
                 <div class="col-sm-6">
@@ -135,17 +147,27 @@
                         <a class="btn btn-default check_out" href="">Continue</a>
                     </div>
                 </div>
-                <div class="col-sm-6">
-                    <div class="total_area">
-                        <ul>
-                            <li>Total <span>€ {{ $total_amount }}</span></li>
-                        </ul>
-                        <a class="btn btn-default update" href="">Update</a>
-                        <a class="btn btn-default check_out" href="{{ url('/checkout') }}">Check Out</a>
+                @if ($total_amount>0)
+                    <div class="col-sm-6">
+                        <div class="total_area">
+                            <ul>
+                                <li>Total <span>€ {{ $total_amount }}</span></li>
+                            </ul>
+                            <a class="btn btn-default update" href="">Update</a>
+                            <a class="btn btn-default check_out" href="{{ url('/checkout') }}">Check Out</a>
+                        </div>
                     </div>
-                </div>
+                @endif
+                @if ( $total_amount=0)
+                    <div class="col-sm-6">
+                        <div class="total_area">
+                            <h1>YOUR CART IS EMPTY</h1>
+                        </div>
+                    </div>
+                @endif
             </div>
         </div>
     </section><!--/#do_action-->
+    @endforeach
 
-@endsection
+@endsectioN

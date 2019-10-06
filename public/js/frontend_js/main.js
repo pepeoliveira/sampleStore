@@ -154,7 +154,6 @@ $().ready(function () {
             },
             country: {
                 required: true,
-                minlength: 4
             },
             zipcode: {
                 required: true,
@@ -181,7 +180,6 @@ $().ready(function () {
             },
             country: {
                 required: "Please enter your country",
-                minlength: "Your country must be at least 4 characters long"
             },
             zipcode: {
                 required: "Please enter your zipcode",

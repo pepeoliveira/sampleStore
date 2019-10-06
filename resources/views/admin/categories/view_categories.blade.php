@@ -45,10 +45,38 @@
                                     <td>{{ $category->parent_id}}</td>
                                     <td>{{ $category->url }}</td>
                                     <td class="ml-5 text-center">
-                                        <a href="{{ url('admin/edit-category/'.$category->id) }}"  class="btn btn-primary btn-mini">Edit</a>
-                                        <a id="delCat" href="{{ url('admin/delete-category/'.$category->id) }}" class="btn btn-danger btn-mini">Delete</a>
+                                        <a href="{{ url('admin/edit-category/'.$category->id) }}"  class="btn btn-warning btn-mini">Edit</a>
+                                        <a data-target="#delete-{{$category->id}}"  data-toggle="modal" class="btn btn-danger btn-mini">Delete</a>
                                     </td>
                                 </tr>
+
+
+                                <!-- Modal -->
+                                <div class="modal fade modal-sm" id="delete-{{$category->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog " role="document">
+                                        <div class="modal-content">
+                                            <button style="margin-right:15px; margin-top: 10px; color:red;" type="button" class="close" data-dismiss="modal" aria-label="Close" >
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                            <div class="modal-header">
+                                                <p style="font-size:20px; margin-top:15px;" class="modal-title text-center"  id="exampleModalLabel"><b>DELETE CATEGORY: "{{$category->name}}"</b></p>
+
+                                            </div>
+                                            <div class="modal-body text-center">
+                                                <p style="font-size: 30px; margin-top: 30px;">Are you sure?</p>
+                                                <img style="width:100px; margin-bottom: 30px; margin-top: 30px;" class= "img-responsive" src="{{asset('/images/backend_images/delete.png')}}">
+                                                <p style="font-size: 20px;">Do you really want to delete this CATEGORY?
+                                                    <br> This process cannot be undone.</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                                                <a class="btn btn-danger text-danger"  href="{{ url('admin/delete-category/'.$category->id) }}">
+                                                    Delete</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 @endforeach
                                 </tbody>
                             </table>
@@ -58,5 +86,6 @@
             </div>
         </div>
     </div>
+
 
 @endsection

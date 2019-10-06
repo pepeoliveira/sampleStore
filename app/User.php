@@ -4,10 +4,19 @@ namespace App;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
+
+    public function isAdmin(Request $request) {
+        $data = $request->all();
+        $admin = $data['admin'];
+        return $admin == 1;
+    }
+
+
     use Notifiable;
 
     /**

@@ -8,7 +8,10 @@ use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
+
 
 
 class UsersController extends Controller
@@ -29,6 +32,43 @@ class UsersController extends Controller
                 return redirect()->back()->with('flash_message_error','Invalid Username or Password');
             }
         }
+    }
+
+    public function forgotPassword(Request $request){
+        if ($request->isMethod('post')){
+            $data = $request->all();
+            $userCount = User::where('email',$data['email'])->count();
+            if($userCount == 0){
+                return redirect()->back()->with('flash_message_error','Email does not exist!');
+            }
+
+            //Get User Details
+            $userDetails = User::where('email',$data['email'])->first();
+
+            //Generate Random Password
+            echo $random_password = Str::random(8);
+
+            //Encode/Secure Password
+            $new_password = bcrypt($random_password);
+
+            //Update Password
+            User::where('email',$data['email'])->update(['password'=>$new_password]);
+
+            //Send Forgot Password Email Code
+            $email = $data['email'];
+            $name = $userDetails->name;
+            $messageData = [
+                'email'=>$email,
+                'name'=>$name,
+                'password'=>$new_password
+            ];
+            // ESTE COMANDO ESTÁ COMENTADO, POIS NÃO É POSSÍVEL ENVIAR O EMAIL SEM TER DADOS DE ENVIO DO SERVIDOR NO ENV
+//            Mail::send('emails.forgotpassword',$messageData,function ($message)use($email){
+//                $message->to($email)->subject('New Password - Sports E-Shopper');
+//            });
+            return redirect('login-register')->with('flash_message_success','Please check your email for new password');
+        }
+        return view('users.forgot_password');
     }
 
 
@@ -57,7 +97,7 @@ class UsersController extends Controller
     }
 
     public function account(Request $request){
-        $user_id = Auth::user()->id;
+        $user_id = Auth::User()->id;
         $userDetails = User::find($user_id);
         $countries = Country::get();
         if ($request->isMethod('post')){

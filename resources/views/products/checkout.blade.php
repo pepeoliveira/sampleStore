@@ -20,7 +20,7 @@
                                 <div class="form-group">
                                     <select id="billing_country" name="billing_country" class="form-control">
                                         @foreach($countries as $country)
-                                            <option value="{{ $country->country_name }}">
+                                            <option value="{{ $country->country_name }}"
                                             @if($country->country_name == $userDetails->country)
                                                 selected @endif> {{ $country->country_name }} </option>
                                         @endforeach

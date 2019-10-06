@@ -159,6 +159,8 @@ class ProductsController extends Controller
 
         return view('admin.products.edit_product')->with(compact('productDetails','categories_dropdown'));
     }
+
+
     public function viewProducts(){
         $products = Product::orderby('id','DESC')->get();
         foreach($products as $key => $val){
@@ -167,10 +169,14 @@ class ProductsController extends Controller
         }
         return view('admin.products.view_products')->with(compact('products'));
     }
+
+
     public function deleteProduct(Request $request, $id){
         Product::where(['id'=>$id])->delete();
         return redirect()->back()->with('flash_message_success','Product has been delete successfully!');
     }
+
+
     public function deleteProductImage($id){
 
         // Get Product Image Name
@@ -269,7 +275,7 @@ class ProductsController extends Controller
     {
         $productDetails = Product::where(['id' => $id])->first();
         $categoryDetails = Category::where(['id' => $productDetails->category_id])->first();
-        $category_name = $categoryDetails->name;
+        $category_name = $categoryDetails['name'];
 
         if ($request->isMethod('post')) {
             $data = $request->all();
@@ -298,7 +304,6 @@ class ProductsController extends Controller
         $title = "Add Images";
         return view('admin.products.add_images')->with(compact('title', 'productDetails', 'category_name', 'productImages'));
 
-        return view('admin.products.add_images')->with(compact('productDetails', 'productImages'));
     }
 
     public function deleteAltImage($id)
@@ -347,7 +352,7 @@ class ProductsController extends Controller
             }
             $productsAll = Product::whereIn('category_id',$cat_ids)->get();  //array($cat_ids)
             $productsAll = json_decode(json_encode($productsAll));
-            //echo "<pre>"; print_r($productsAll); die;
+
 
         }else{
             $productsAll = Product::where(['category_id'=>$categoriesDetails->id])->get();
@@ -355,7 +360,7 @@ class ProductsController extends Controller
 
         $productsAll = Product::where(['category_id' => $categoriesDetails->id])->get();
 
-        return view('products.listing')->with(compact('categories','categoriesDetails','productsAll'));
+        return view('products.listing')->with(compact('categories','categoriesDetails','productsAll','subCategories'));
 
 
     }
@@ -371,7 +376,7 @@ class ProductsController extends Controller
         //Get Product Details
         $productDetails = Product::with('attributes')->where('id',$id)->first();
         $productDetails = json_decode(json_encode($productDetails));
-        //echo "<pre>"; print_r($productDetails); die;
+
 
         // Related Products
         $relatedProducts = Product::where('id','!=', $id)->where(['category_id'=>$productDetails->category_id])->get();
@@ -426,9 +431,9 @@ class ProductsController extends Controller
         ])->count();
 
         if($countProducts>0){
-             return redirect()->back()->with('flash_message_error','Item already exists in your cart!');
+            return redirect()->back()->with('flash_message_error','Item already exists in your cart!');
         }else{
-              $getSKU = ProductsAttribute::select('sku')->where(['product_id'=>$data['product_id'],'size'=>$sideArr[1],])->first();
+            $getSKU = ProductsAttribute::select('sku')->where(['product_id'=>$data['product_id'],'size'=>$sideArr[1],])->first();
 
             DB::table('cart')->insert([
                 'product_id'=>$data['product_id'],
@@ -440,7 +445,7 @@ class ProductsController extends Controller
                 'quantity'=>$data['quantity'],
                 'user_email'=>$data['user_email'],
                 'session_id'=>$session_id
-        ]);}
+            ]);}
 
         return redirect('cart')->with('flash_message_success','Product has been added in your Cart!');
     }
@@ -481,6 +486,6 @@ class ProductsController extends Controller
         $user_id = Auth::user()->id;
         $userDetails = User::find($user_id);
         $country = Country::get();
-        return view ('products.checkout',['userDetails' => $userDetails,'country'=>$country]);
+        return view ('products.checkout',['userDetails' => $userDetails,'countries'=>$country]);
     }
 }

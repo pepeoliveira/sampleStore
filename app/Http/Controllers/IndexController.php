@@ -10,17 +10,18 @@ use Illuminate\Http\Request;
 class IndexController extends Controller
 {
     public function index(){
-        // random order inRandomOrder()->get();
-        $productsAll = Product::inRandomOrder()->get();
-
-        // ORDEM ASCENDENTE
-        $productsAll = Product::get();
+//        // random order inRandomOrder()->get();
+//        $productsAll = Product::inRandomOrder()->get();
+//
+//        // ORDEM ASCENDENTE
+//        $productsAll = Product::get();
 
         // ORDEM DESCENDENTE
-        $productsAll = Product::orderBy('price','DESC')->get();
+        $productsAll = Product::orderBy('price','DESC')->paginate(3);
 
         // CATEGORIAS E SUB-CATEGORIAS
         $categories = Category::with('categories')->where(['parent_id'=>0])->get();
+
 
         // BANNERS ENABLED
         $banners = Banner::where('status','1')->get();

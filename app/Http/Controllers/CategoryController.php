@@ -56,13 +56,12 @@ class CategoryController extends Controller
     }
 
     public function deleteCategory($id = null){
-        if(!empty($id)){
             Category::where(['id'=>$id])->delete();
             return redirect()->back()->with('flash_message_success','Category Deleted Successfully!');
-        }
+
     }
     public function viewCategories(){
-         $categories = Category::get();
+         $categories = Category::orderby('id','DESC')->get();
          return view('admin.categories.view_categories')->with(compact('categories'));
     }
 

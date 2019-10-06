@@ -13,6 +13,7 @@
 
 use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 //Route::get('/', function () {
 //    return view('welcome');
@@ -39,21 +40,6 @@ Route::get('product/{id}','ProductsController@product');
 //Get Product Attribute PRice
 Route::any('/get-product-price','ProductsController@getProductPrice');
 
-// Add to Cart Route
-Route::match(['get','post'],'/add-cart','ProductsController@addtocart');
-
-// Cart Page
-Route::match(['get','post'],'/cart','ProductsController@cart');
-
-// Delete item from cart
-Route::match(['get','post'],'/cart/delete-product/{id}','ProductsController@deleteCartProduct');
-
-// Update quantity in cart
-Route::get('/cart/update-quantity/{id}/{quantity}','ProductsController@updateCartQuantity');
-
-// Checkout Page
-Route::match(['get','post'],'/checkout','ProductsController@checkout');
-
 
 //Get Product Attribute PRice
 Route::any('/get-product-price','ProductsController@getProductPrice');
@@ -62,6 +48,9 @@ Route::any('/get-product-price','ProductsController@getProductPrice');
 
 // Users Login/Register Page
 Route::get('/login-register','UsersController@userLoginRegister');
+
+//FORGOT PASSWORD
+Route::match(['GET','POST'],'/forgot-password', 'UsersController@forgotPassword');
 
 // Users Register Form Submit
 Route::post('/user-register','UsersController@register');
@@ -81,11 +70,27 @@ Route::group(['middleware'=>['frontlogin']],function(){
     Route::match(['GET','POST'],'account','UsersController@account');
     Route::post('/check-user-pwd','UsersController@chkUserPassword');
     Route::post('/update-user-pwd','UsersController@updatePassword');
+    // Checkout Page
+    Route::match(['get','post'],'/checkout','ProductsController@checkout');
+
+    // Add to Cart Route
+    Route::match(['get','post'],'/add-cart','ProductsController@addtocart');
+
+    // Cart Page
+    Route::match(['get','post'],'/cart','ProductsController@cart');
+
+    // Delete item from cart
+    Route::match(['get','post'],'/cart/delete-product/{id}','ProductsController@deleteCartProduct');
+
+    // Update quantity in cart
+    Route::get('/cart/update-quantity/{id}/{quantity}','ProductsController@updateCartQuantity');
+
+
 });
 
 //**********************************//
 
-Route::group(['middleware' => ['auth']], function(){
+Route::group(['middleware' => ['adminauth']], function(){
 
     Route::get('/admin/dashboard','AdminController@dashboard');
     Route::get('/admin/settings','AdminController@settings');
@@ -118,10 +123,16 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/admin/view-banners','BannersController@viewBanners');
     Route::match(['get','post'],'/admin/edit-banner/{id}','BannersController@editBanner');
     Route::get('/admin/delete-banner/{id}','BannersController@deleteBanner');
+    Route::get('/logout', 'AdminController@logout')->middleware('adminauth');
+
 
 
 } );
 
-Route::get('/logout','AdminController@logout');
+
+/// CONTACT PAGE
+Route::match(['GET','POST'],'/page/contact','CmsController@contact');
+
+
 
 
