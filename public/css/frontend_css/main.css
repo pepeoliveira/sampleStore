@@ -37,11 +37,11 @@ h1, h2, h3, h4, h5, h6 {
   font-family: 'Roboto', sans-serif;
 }
 
-.btn:hover,
-.btn:focus{
-  outline: none;
-  box-shadow: none;
-}
+/*.btn:hover,*/
+/*.btn:focus{*/
+/*  outline: none;*/
+/*  box-shadow: none;*/
+/*}*/
 
 .navbar-toggle {
   background-color: #000;
@@ -1890,9 +1890,9 @@ h2.title {
 
 
 .shopper-info .btn-primary {
-  background: #FE980F;
-  border: 0 none;
-  border-radius: 0;
+  /*background: #FE980F;*/
+  /*border: 0 none;*/
+  /*border-radius: 0;*/
   margin-right: 15px;
   margin-top: 20px;
 }
@@ -2085,9 +2085,9 @@ h2.title {
 .blog-post-area
 .single-blog-post
 .btn-primary {
-  background:#FE980F;
-  border: medium none;
-  border-radius: 0;
+  /*background:#FE980F;*/
+  /*border: medium none;*/
+  /*border-radius: 0;*/
   color: #FFFFFF;
   margin-top: 17px;
 }
@@ -2273,9 +2273,9 @@ h2.title {
 
 .media-list .btn-primary,
 .commnets .btn-primary {
-  background:#FC9A11;
-  border: 0 none;
-  border-radius: 0;
+  /*background:#FC9A11;*/
+  /*border: 0 none;*/
+  /*border-radius: 0;*/
   color: #FFFFFF;
   float: left;
   font-size: 10px;
@@ -2397,10 +2397,16 @@ h2.title {
 }
 
 .btn.btn-primary {
-  background:#FE980F;
-  border: 0 none;
-  border-radius: 0;
+  /*background:#FE980F;*/
+  /*border: 0 none;*/
+  /*border-radius: 0;*/
   margin-top: 16px;
+}
+
+.btn-success:hover{
+    background-color: white;
+    color: #4CAF50;
+    border-color: #4CAF50;
 }
 
 .blank-arrow {

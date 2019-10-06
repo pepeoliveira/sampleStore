@@ -6,6 +6,37 @@
 @endphp
 
 <header id="header"><!--header-->
+    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+            <li data-target="#myCarousel" data-slide-to="1"></li>
+            <li data-target="#myCarousel" data-slide-to="2"></li>
+        </ol>
+
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner">
+            <div class="item text-center">
+                <span class="text-center"><img src="{{ asset('images/frontend_images/Sport-TV.png') }}" alt="sportTv" style="margin-right: 20px"><strong>Football is everything. Sport TV has a new smart channel to improve your experience.</strong></span>
+            </div>
+            <div class="item  text-center">
+                <span class="text-center"><img src="{{ asset('images/frontend_images/sky-sports.png') }}" alt="sportTv" style="margin-right: 20px"><strong>The fight for the Premier League title is hot. Connect with us and follow your favorite team closely.</strong></span>
+            </div>
+            <div class="item  active text-center">
+                <span class="text-center"><span style="padding: 2px; margin-top: 5px; margin-bottom: 5px;  color: red; border-radius: 5px; margin-right: 20px">FREE SHIPPING</span><strong>You only need <b>€60</b> to Get FREE SHIPPING! </strong><span style="padding: 2px; margin-top: 5px; margin-bottom: 5px;  color: red; border-radius: 5px; margin-left: 20px">FREE SHIPPING</span></span>
+            </div>
+        </div>
+
+{{--        <!-- Left and right controls -->--}}
+{{--        <a class="left carousel-control" href="#myCarousel" data-slide="prev">--}}
+{{--            <span class="glyphicon glyphicon-chevron-left"></span>--}}
+{{--            <span class="sr-only">Previous</span>--}}
+{{--        </a>--}}
+{{--        <a class="right carousel-control" href="#myCarousel" data-slide="next">--}}
+{{--            <span class="glyphicon glyphicon-chevron-right"></span>--}}
+{{--            <span class="sr-only">Next</span>--}}
+{{--        </a>--}}
+    </div>
     <div class="header_top"><!--header_top-->
         <div class="container">
             <div class="row">
@@ -108,7 +139,7 @@
                                 <ul class="nav navbar-nav collapse navbar-collapse">
                                     <li><a href="/">HOME</a></li>
                                     @foreach($mainCategories as $category)
-                                        @if($category->status=="1")
+                                        @if($category->status==1)
                                             <li>
                                                 <a style="font-size: 15px;"
                                                    href="{{ asset('products/'.$category->url) }}">{{ $category->name }}</a>

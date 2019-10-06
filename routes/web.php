@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Auth;
 
 
 // HOME PAGE
-Route::get('/','IndexController@index');
+
 
 Route::match(['get','post'],'/admin','AdminController@login');
 
@@ -39,6 +39,21 @@ Route::get('product/{id}','ProductsController@product');
 
 //Get Product Attribute PRice
 Route::any('/get-product-price','ProductsController@getProductPrice');
+
+// Add to Cart Route
+Route::match(['get','post'],'/add-cart','ProductsController@addtocart');
+
+// Cart Page
+Route::match(['get','post'],'/cart','ProductsController@cart');
+
+// Delete item from cart
+Route::match(['get','post'],'/cart/delete-product/{id}','ProductsController@deleteCartProduct');
+
+// Update quantity in cart
+Route::get('/cart/update-quantity/{id}/{quantity}','ProductsController@updateCartQuantity');
+
+// Checkout Page
+Route::match(['get','post'],'/checkout','ProductsController@checkout');
 
 
 //Get Product Attribute PRice
@@ -61,8 +76,6 @@ Route::match(['GET','POST'],'/check-email', 'UsersController@checkEmail');
 // Users LOGIN
 Route::post('/user-login','UsersController@login');
 
-// Users LOGOUT
-Route::get('/user-logout','UsersController@logout');
 
 // **** ROUTES AFTER LOGIN
 Route::group(['middleware'=>['frontlogin']],function(){
@@ -70,22 +83,26 @@ Route::group(['middleware'=>['frontlogin']],function(){
     Route::match(['GET','POST'],'account','UsersController@account');
     Route::post('/check-user-pwd','UsersController@chkUserPassword');
     Route::post('/update-user-pwd','UsersController@updatePassword');
-    // Checkout Page
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     Route::match(['get','post'],'/checkout','ProductsController@checkout');
-
-    // Add to Cart Route
-    Route::match(['get','post'],'/add-cart','ProductsController@addtocart');
-
-    // Cart Page
-    Route::match(['get','post'],'/cart','ProductsController@cart');
-
-    // Delete item from cart
-    Route::match(['get','post'],'/cart/delete-product/{id}','ProductsController@deleteCartProduct');
-
-    // Update quantity in cart
-    Route::get('/cart/update-quantity/{id}/{quantity}','ProductsController@updateCartQuantity');
-
-
+    Route::match(['get','post'],'/order-review','ProductsController@orderReview');
+    Route::match(['get','post'],'/place-order','ProductsController@placeOrder');
+    Route::get('/user-logout','UsersController@logout');
 });
 
 //**********************************//
