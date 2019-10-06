@@ -104,28 +104,6 @@
         </div>
     </div>
 
-        <div id="info_product" class="modal hide">
-            <div class="modal-header">
-                <button data-dismiss="modal" class="close" type="button">×</button>
-                <h3>Products Details</h3>
-            </div>
-            <div class="modal-body">
-
-              <p>PRODUCT ID:   {{ $product->id }}</p>
-              <p>CATEGORY ID {{ $product->category_id }}</p>
-              <p>CATEGORY NAME {{ $product->category_name }}</p>
-              <p>PRODUCT NAME {{ $product->product_name }}</p>
-              <p>PRODUCT CODE {{ $product->product_code }}</p>
-              <p>PRODUCT COLOR {{ $product->product_color }}</p>
-              <p>DESCRIPTION {{ $product->description }}</p>
-              <p>PRICE  {{ $product->price }}</p>
-              <p>IMAGE {{ $product->image }}</p>
-              <p>DATA CREATED {{ $product->created_at }}</p>
-              <p>DATA UPDATED {{ $product->updated_at }}</p>
-
-            </div>
-        </div>
-    </div>
 
 
 

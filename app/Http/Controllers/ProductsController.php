@@ -9,7 +9,7 @@ use App\OrdersProduct;
 use App\ProductImage;
 use App\ProductsAttribute;
 use Illuminate\Http\Request;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Contracts\Session\Session;
 use Intervention\Image\Facades\Image;
@@ -618,4 +618,41 @@ class ProductsController extends Controller
         }
 
     }
+
+    public function userOrders(){
+        $user_id = Auth::user()->id;
+        $orders = Order::with('orders')->where('user_id',$user_id)->orderBy('id','DESC')->get();
+        return view('orders.user_orders')->with(compact('orders'));
+    }
+    public function userOrderDetails($order_id){
+        $user_id = Auth::user()->id;
+        $orderDetails = Order::with('orders')->where('id',$order_id)->first();
+        $orderDetails = json_decode(json_encode($orderDetails));
+        return view('orders.user_order_details')->with(compact('orderDetails'));
+    }
+    public function viewOrders(){
+        $orders = Order::with('orders')->orderBy('id','Desc')->get();
+        $orders = json_decode(json_encode($orders));
+        return view('admin.orders.view_orders')->with(compact('orders'));
+    }
+    public function viewOrderDetails($order_id){
+        $orderDetails = Order::with('orders')->where('id',$order_id)->first();
+        $orderDetails = json_decode(json_encode($orderDetails));
+
+        $user_id = $orderDetails->user_id;
+        $userDetails = User::where('id',$user_id)->first();
+
+
+        return view('admin.orders.order_details')->with(compact('orderDetails','userDetails'));
+    }
+
+
+    public function updateOrderStatus(Request $request){
+        if($request->isMethod('post')){
+            $data = $request->all();
+            Order::where('id',$data['order_id'])->update(['status'=>$data['status']]);
+            return redirect()->back()->with('flash_message_success','Order Status has been updated successfully!');
+        }
+    }
+
 }

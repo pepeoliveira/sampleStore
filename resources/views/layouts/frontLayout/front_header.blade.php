@@ -134,14 +134,14 @@
                                 <span class="icon-bar"></span>
                             </button>
                         </div>
-                        <div class="row">
+                        <div class="row" style="background-color:#003C71;">
                             <div class="col-12">
-                                <ul class="nav navbar-nav collapse navbar-collapse">
-                                    <li><a href="/">HOME</a></li>
+                                <ul class="nav navbar-nav collapse navbar-collapse mainmenu">
+                                    <li><a href="/"><i  style="font-size: 15px; color:#FFFFFF!important;" class="fas fa-home"></i></a></li>
                                     @foreach($mainCategories as $category)
                                         @if($category->status==1)
                                             <li>
-                                                <a style="font-size: 15px;"
+                                                <a style="font-size: 15px; color:#FFFFFF!important;"
                                                    href="{{ asset('products/'.$category->url) }}">{{ $category->name }}</a>
                                             </li>
                                         @endif

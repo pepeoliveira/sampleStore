@@ -83,22 +83,6 @@ Route::group(['middleware'=>['frontlogin']],function(){
     Route::match(['GET','POST'],'account','UsersController@account');
     Route::post('/check-user-pwd','UsersController@chkUserPassword');
     Route::post('/update-user-pwd','UsersController@updatePassword');
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     Route::match(['get','post'],'/checkout','ProductsController@checkout');
     Route::match(['get','post'],'/order-review','ProductsController@orderReview');
     Route::match(['get','post'],'/place-order','ProductsController@placeOrder');
@@ -142,7 +126,12 @@ Route::group(['middleware' => ['adminauth']], function(){
     Route::get('/admin/delete-banner/{id}','BannersController@deleteBanner');
     Route::get('/logout', 'AdminController@logout')->middleware('adminauth');
 
-
+    //Admin Orders Routes
+    Route::get('/admin/view-orders/','ProductsController@viewOrders');
+    //Admin Orders Routes
+    Route::get('/admin/view-order/{id}','ProductsController@viewOrderDetails');
+    //Update Order Status
+    Route::post('/admin/update-order-status/','ProductsController@updateOrderStatus');
 
 } );
 
