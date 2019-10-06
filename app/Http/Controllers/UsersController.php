@@ -7,6 +7,7 @@ use App\Country;
 use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
@@ -26,6 +27,12 @@ class UsersController extends Controller
             $data = $request->all();
             if (Auth::attempt(['email'=>$data['email'],'password'=>$data['password']])){
                 Session::put('frontSession',$data['email']);
+
+                if(!empty(Session::get('session_id'))){
+                    $session_id = Session::get('session_id');
+                    DB::table('cart')->where('session_id',$session_id)->update(['user_email'=>$data['email']]);
+                }
+
                 return redirect('/')->with('flash_message_success', 'Logged In with success');
             }
             else{
@@ -89,6 +96,12 @@ class UsersController extends Controller
                 $user->save();
                 if (Auth::attempt(['email' => $data['email'], 'password' => $data['password']])) {
                     Session::put('frontSession',$data['email']);
+
+                    if(!empty(Session::get('session_id'))){
+                        $session_id = Session::get('session_id');
+                        DB::table('cart')->where('session_id',$session_id)->update(['user_email'=>$data['email']]);
+                    }
+
                     return redirect('/')->with('flash_message_success', 'User registered with success');
                 }
 

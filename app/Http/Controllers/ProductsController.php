@@ -11,12 +11,14 @@ use App\ProductsAttribute;
 use Illuminate\Http\Request;
 use Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Contracts\Session\Session;
+//use Illuminate\Contracts\Session\Session;
 use Intervention\Image\Facades\Image;
 use App\Product;
 use App\User;
 use App\Country;
 use App\DeliveryAddress;
+use Session;
+
 
 
 
@@ -409,8 +411,14 @@ class ProductsController extends Controller
     public function addtocart(Request $request){
         $data = $request->all();
 
-        if(empty($data['user_email'])){
+//        if(empty($data['user_email'])){
+//            $data['user_email'] = '';
+//        }
+
+        if(empty(Auth::user()->email)){
             $data['user_email'] = '';
+        }else{
+            $data['user_email'] = Auth::user()->email;
         }
 
         $session_id = session()->get('session_id');
@@ -450,18 +458,17 @@ class ProductsController extends Controller
     }
 
     public function cart(){
-        $session_id = session()->get('session_id');
+//        $session_id = session()->get('session_id');
 
+        if(Auth::check()){
+            $user_email = Auth::user()['email'];
+            $userCart = DB::table('cart')->where(['user_email'=>$user_email])->get();
+        }else{
+            $session_id = session()->get('session_id');
+            $userCart = DB::table('cart')->where(['session_id'=>$session_id])->get();
+        }
 
-//        if(Auth::check()){
-//            $user_email = Auth::user()['email'];
-//            $userCart = DB::table('cart')->where(['user_email'=>$user_email])->get();
-//        }else{
-//            $session_id = session()->get('session_id');
-//            $userCart = DB::table('cart')->where(['session_id'=>$session_id])->get();
-//        }
-
-       $userCart = DB::table('cart')->where(['session_id'=>$session_id])->get();
+//       $userCart = DB::table('cart')->where(['session_id'=>$session_id])->get();
         foreach($userCart as $key => $product){
             $productDetails = Product::where('id',$product->product_id)->first();
             $userCart[$key]->image = $productDetails->image;
@@ -615,7 +622,44 @@ class ProductsController extends Controller
                 $cartPro->product_quantity = $pro->quantity;
                 $cartPro->save();
             }
+
+            Session::put('order_id',$order_id);
+            Session::put('payment',$data['payment']);
+
+            if($data['payment_method'] =="COD"){
+                return redirect('/thanks');
+            }else{
+                return redirect('/paypal');
+            }
+
+
+
         }
 
+    }
+
+    public function thanks(Request $request){
+        $user_email = Auth::user()->email;
+        DB::table('cart')->where('user_email',$user_email)->delete();
+        return view('orders.thanks');
+    }
+    public function paypal(Request $request){
+        $user_email = Auth::user()->email;
+        DB::table('cart')->where('user_email',$user_email)->delete();
+        return view('orders.paypal');
+    }
+
+    public function userOrders(){
+        $user_id = Auth::user()->id;
+        $orders = Order::with('orders')->where('user_id',$user_id)->orderBy('id','DESC')->get();
+
+
+        return view('orders.user_orders')->with(compact('orders'));
+    }
+
+    public function userOrderDetails($order_id){
+        $user_id = Auth::user()->id;
+        $orderDetails = Order::with('orders')->where('id',$order_id)->first();
+        return view ('orders.user_order_details')->with(compact('orderDetails'));
     }
 }
