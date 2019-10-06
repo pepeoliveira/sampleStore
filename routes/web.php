@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 
 
 // HOME PAGE
-Route::get('/','IndexController@index');
+
 
 Route::match(['get','post'],'/admin','AdminController@login');
 
@@ -51,8 +51,7 @@ Route::match(['get','post'],'/cart/delete-product/{id}','ProductsController@dele
 // Update quantity in cart
 Route::get('/cart/update-quantity/{id}/{quantity}','ProductsController@updateCartQuantity');
 
-// Checkout Page
-Route::match(['get','post'],'/checkout','ProductsController@checkout');
+
 
 
 //Get Product Attribute PRice
@@ -73,7 +72,7 @@ Route::match(['GET','POST'],'/check-email', 'UsersController@checkEmail');
 Route::post('/user-login','UsersController@login');
 
 // Users LOGOUT
-Route::get('/user-logout','UsersController@logout');
+
 
 // **** ROUTES AFTER LOGIN
 Route::group(['middleware'=>['frontlogin']],function(){
@@ -81,6 +80,10 @@ Route::group(['middleware'=>['frontlogin']],function(){
     Route::match(['GET','POST'],'account','UsersController@account');
     Route::post('/check-user-pwd','UsersController@chkUserPassword');
     Route::post('/update-user-pwd','UsersController@updatePassword');
+    Route::match(['get','post'],'/checkout','ProductsController@checkout');
+    Route::match(['get','post'],'/order-review','ProductsController@orderReview');
+    Route::match(['get','post'],'/place-order','ProductsController@placeOrder');
+    Route::get('/user-logout','UsersController@logout');
 });
 
 //**********************************//
@@ -119,9 +122,9 @@ Route::group(['middleware' => ['auth']], function(){
     Route::match(['get','post'],'/admin/edit-banner/{id}','BannersController@editBanner');
     Route::get('/admin/delete-banner/{id}','BannersController@deleteBanner');
 
-
+    Route::get('/logout','AdminController@logout');
 } );
 
-Route::get('/logout','AdminController@logout');
+
 
 

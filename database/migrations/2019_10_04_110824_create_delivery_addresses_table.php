@@ -20,6 +20,7 @@ class CreateDeliveryAddressesTable extends Migration
             $table->string('name');
             $table->string('address');
             $table->string('city');
+            $table->string('country');
             $table->string('zipcode');
             $table->string('phone');
             $table->timestamps();

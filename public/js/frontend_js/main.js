@@ -69,7 +69,19 @@ $(document).ready(function () {
 $(document).ready(function () {
     $("#copyAddress").click(function(){
         if(this.checked){
-            $("#shipping_name").val($("billing_name").val());
+            $("#shipping_name").val($("#billing_name").val());
+            $("#shipping_address").val($("#billing_address").val());
+            $("#shipping_city").val($("#billing_city").val());
+            $("#shipping_zipcode").val($("#billing_zipcode").val());
+            $("#shipping_phone").val($("#billing_phone").val());
+            $("#shipping_country").val($("#billing_country").val());
+        }else{
+            $("#shipping_name").val('');
+            $("#shipping_address").val('');
+            $("#shipping_city").val('');
+            $("#shipping_zipcode").val('');
+            $("#shipping_phone").val('');
+            $("#shipping_country").val('');
         }
     });
 });
@@ -265,3 +277,13 @@ $().ready(function () {
     });
 
 });
+
+function selectPayment(){
+    if($('#paypal').is(':checked') || $('#COD').is(':checked')){
+        alert('everything is fine!')
+    }
+    else {
+        alert('Please select one payment method!');
+        return false;
+    }
+}

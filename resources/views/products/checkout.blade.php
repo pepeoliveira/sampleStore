@@ -3,7 +3,25 @@
 
     <section><!--form-->
         <div class="container">
-            <form action="#" style="margin-bottom: 40px">
+            <div class="breadcrumbs">
+                <ol class="breadcrumb">
+                    <li><a href="#">Home</a></li>
+                    <li class="active">Check out</li>
+                </ol>
+            </div>
+            @if(Session::has('flash_message_error'))
+                <div class="alert alert-danger alert-block">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    <strong>   {!! session('flash_message_error') !!}</strong>
+                </div>
+            @endif
+            @if(Session::has('flash_message_success'))
+                <div class="alert alert-success alert-block">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    <strong>   {!! session('flash_message_success') !!}</strong>
+                </div>
+            @endif
+            <form action="{{ url('/checkout') }}" method="post" style="margin-bottom: 40px"> {{ csrf_field() }}
                 <div class="row">
                     <div class="col-sm-4 col-sm-offset-1">
                         <div class="login-form"><!--login form-->
@@ -20,14 +38,14 @@
                                 <div class="form-group">
                                     <select id="billing_country" name="billing_country" class="form-control">
                                         @foreach($countries as $country)
-                                            <option value="{{ $country->country_name }}">
+                                            <option value="{{ $country->country_name }}"
                                             @if($country->country_name == $userDetails->country)
                                                 selected @endif> {{ $country->country_name }} </option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" name="billing_zip" id="billing_zip" placeholder="Billing Zip-Code" value="{{$userDetails->zipcode}}" class="form-control"/>
+                                    <input type="text" name="billing_zipcode" id="billing_zipcode" placeholder="Billing Zip-Code" value="{{$userDetails->zipcode}}" class="form-control"/>
                                 </div>
                                 <div class="form-group">
                                     <input type="text" name="billing_phone" id="billing_phone" placeholder="Billing Phone"  value="{{$userDetails->phone}}"class="form-control"/>
@@ -45,28 +63,29 @@
                         <div class="signup-form"><!--sign up form-->
                             <h2 style="color: rgb(0, 60, 113)">Ship To</h2>
                                 <div class="form-group">
-                                    <input type="text" id="shipping_name" name="shipping_name" placeholder="Shipping Name" class="form-control"/>
+                                    <input type="text" id="shipping_name" name="shipping_name" placeholder="Shipping Name" value="{{ $shippingDetails->name }}"  class="form-control"/>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" id="shipping_address" name="shipping_address" placeholder="Shipping Address" class="form-control"/>
+                                    <input type="text" id="shipping_address" name="shipping_address" placeholder="Shipping Address" value="{{ $shippingDetails->address }}" class="form-control"/>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" id="shipping_city" name="shipping_city" placeholder="Shipping City" class="form-control"/>
+                                    <input type="text" id="shipping_city" name="shipping_city" placeholder="Shipping City" value="{{ $shippingDetails->city }}" class="form-control"/>
                                 </div>
                                 <div class="form-group">
                                     <select id="shipping_country" name="shipping_country" class="form-control">
+                                        <option value="">Select Country</option>
                                         @foreach($countries as $country)
                                             <option value="{{ $country->country_name }}"
-                                                    @if($country->country_name == $userDetails->country)
-                                                    selected @endif> {{ $country->country_name }} </option>
+                                            @if($country->country_name == $shippingDetails->country)
+                                                selected @endif>{{ $country->country_name }} </option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" id="shipping_zipcode" name="shipping_zipcode" placeholder="Shipping Zip-code" class="form-control"/>
+                                    <input type="text" id="shipping_zipcode" name="shipping_zipcode"  placeholder="Shipping Zip-code" value="{{ $shippingDetails->zipcode }}" class="form-control"/>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" id="shipping_phone" name="shipping_phone" placeholder="Shipping Phone" class="form-control"/>
+                                    <input type="text" id="shipping_phone" name="shipping_phone"  placeholder="Shipping Phone" value="{{ $shippingDetails->phone }}" class="form-control"/>
                                 </div>
                                 <div class="form-group">
                                     <input type="submit" class="btn" value="Check Out" style="border-color: rgb(0, 114, 182);">
