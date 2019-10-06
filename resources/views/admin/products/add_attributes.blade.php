@@ -40,7 +40,7 @@
                                 </div>
                                 <div class="control-group">
                                     <label class="control-label">Product Code: </label>
-                                    <label class="control-label ml-5""><strong
+                                    <label class="control-label ml-5"><strong
                                         style="float: left">  {{ $productDetails->product_code }}</strong></label>
                                 </div>
                                 <div class="control-group">
@@ -50,24 +50,25 @@
                                 </div>
                                 <br>
                                 <div class="control-group" style="margin-left:70px;">
-                                    <div>
-                                        <input type="text" name="sku[]" id="sku" placeholder="SKU"
-                                               style="width: 120px;"/>
-                                        <input type="text" name="size[]" id="size" placeholder="size"
-                                               style="width: 120px;"/>
-                                        <input type="text" name="price[]" id="price" placeholder="price"
-                                               style="width: 120px;"/>
-                                        <input type="text" name="stock[]" id="stock" placeholder="stock"
-                                               style="width: 120px;"/>
-                                        <a  href="javascript:void(0);" class="add_button" title="Add field"><i class="fas fa-plus-circle"></i> Add another</a>
+                                    <div class="field_wrapper">
+                                        <div>
+                                            <input type="text" name="sku[]" id="sku" placeholder="SKU"
+                                                   style="width: 120px;"/>
+                                            <input type="text" name="size[]" id="size" placeholder="size"
+                                                   style="width: 120px;"/>
+                                            <input type="text" name="price[]" id="price" placeholder="price"
+                                                   style="width: 120px;"/>
+                                            <input type="text" name="stock[]" id="stock" placeholder="stock"
+                                                   style="width: 120px;"/>
+                                            <a  href="javascript:void(0);" class="add_button" title="Add field"><i class="fas fa-plus-circle"></i> Add another</a>
+                                        </div>
                                     </div>
+                                </div>
+                                <div class="form-actions">
+                                    <input type="submit" value="Add Attributes" class="btn btn-success">
                                 </div>
                             </form>
                         </div>
-                        <div class="form-actions">
-                            <input type="submit" value="Add Attributes" class="btn btn-success">
-                        </div>
-
                     </div>
                 </div>
             </div>

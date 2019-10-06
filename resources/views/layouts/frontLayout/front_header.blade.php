@@ -108,7 +108,7 @@
                                 <li><a href="{{url('/login-register')}}"><i class="fa fa-lock"></i> Login</a></li>
                             @else
                                 <li><a href="#"><i class="fa fa-star"></i> Wishlist</a></li>
-                                <li><a href="{{url('/checkout')}}"><i class="fa fa-crosshairs"></i> Checkout</a></li>
+                                <li><a href="{{url('/orders')}}"><i class="fa fa-crosshairs"></i> Orders</a></li>
                                 <li><a href="{{url('/cart')}}"><i class="fa fa-shopping-cart"></i> Cart</a></li>
                                 <li><a href="{{url('/account')}}"><i class="fa fa-user"></i> Account</a></li>
                                 <li><a href="{{url('/page/contact')}}"><i class="fas fa-phone-alt"></i> Contact Us</a>

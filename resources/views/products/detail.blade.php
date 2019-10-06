@@ -77,7 +77,7 @@
 
                                         </select>
                                     </p>
-                                    <img src="images/product-details/rating.png" alt=""/>
+                                    <img src="{{ asset('images/frontend_images/product-details/rating.png') }}" alt=""/>
                                     <span>
 									<span id="getPrice">€ {{ $productDetails->price }}</span>
 									<label>Quantity:</label>
