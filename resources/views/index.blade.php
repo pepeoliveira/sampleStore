@@ -2,8 +2,8 @@
 
 @section('content')
 
-    <section id="slider"><!--slider-->
-        <div class="container">
+    <section id="slider" ><!--slider-->
+        <div class="container" >
             @if(Session::has('flash_message_error'))
                 <div class="alert alert-danger alert-block">
                     <button type="button" class="close" data-dismiss="alert">×</button>
@@ -16,9 +16,9 @@
                     <strong>   {!! session('flash_message_success') !!}</strong>
                 </div>
             @endif
-            <div class="row">
-                <div class="col-sm-12">
-                    <div id="slider-carousel" class="carousel slide" data-ride="carousel">
+            <div class="row" >
+                <div class="col-sm-12" >
+                    <div id="slider-carousel" class="carousel slide" data-ride="carousel" style="border-top: 1px solid darkblue; border-bottom: 1px solid darkblue">
                         <ol class="carousel-indicators">
                             @foreach($banners as $key => $banner)
                                 <li data-target="#slider-carousel" data-slide-to="0"
@@ -78,8 +78,7 @@
                                     </div>
                                     <div class="choose">
                                         <ul class="nav nav-pills nav-justified">
-                                            <li><a href="#"><i class="fa fa-plus-square"></i>Add to wishlist</a></li>
-                                            <li><a href="#"><i class="fa fa-plus-square"></i>Add to compare</a></li>
+                                            <li><a href="{{ url('/orders') }}"><i class="fa fa-plus-square"></i>Check your orders page</a></li>
                                         </ul>
                                     </div>
                                 </div>

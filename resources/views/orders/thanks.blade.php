@@ -5,7 +5,7 @@
         <div class="container">
             <div class="breadcrumbs">
                 <ol class="breadcrumb">
-                    <li><a href="#">Home</a></li>
+                    <li><a href="{{ url('/') }}">Home</a></li>
                     <li class="active">Thanks</li>
                 </ol>
             </div>

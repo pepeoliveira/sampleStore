@@ -5,7 +5,7 @@
         <div class="container">
                 <div class="breadcrumbs">
                     <ol class="breadcrumb">
-                        <li><a href="#">Home</a></li>
+                        <li><a href="{{ url('/checkout') }}">Home</a></li>
                         <li class="active">Order Review</li>
                     </ol>
                 </div>
@@ -114,20 +114,20 @@
                                     </tr>
                                     <tr>
                                         <td>Shipping Tax</td>
-                                        <td name="tax">@if($total_amount>=60)
+                                        <td name="tax">@if($total_amount>=120)
                                                 {{ $tax = 0 }}
                                             @endif
-                                            @if($total_amount<60)
+                                            @if($total_amount<120)
                                                 {{ $tax = 15 }}.0
                                             @endif
                                         </td>
                                     </tr>
                                     <tr class="shipping-cost">
                                         <td>Shipping Cost</td>
-                                        <td>@if($total_amount>=60)
+                                        <td>@if($total_amount>=120)
                                                 <span style="color: green">Free</span>
                                             @endif
-                                            @if($total_amount<60)
+                                            @if($total_amount<120)
                                                 € {{ $tax_amount = $total_amount * $tax/100 }}
                                             @endif
                                         </td>
@@ -135,10 +135,10 @@
                                     <tr>
                                         <td>Total</td>
                                         <td><span>
-                                                @if($total_amount>=60)
+                                                @if($total_amount>=120)
                                                     € {{ $payment = $total_amount }}
                                                 @endif
-                                                @if($total_amount<60)
+                                                @if($total_amount<120)
                                                     € {{ $payment = $total_amount + $tax_amount }}
                                                 @endif
                                             </span></td>

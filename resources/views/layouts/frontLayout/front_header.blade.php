@@ -72,11 +72,11 @@
                     </div>
                     <div class="btn-group pull-right">
                         <div class="btn-group">
-                            <button type="button" class="btn btn-default dropdown-toggle usa" data-toggle="dropdown">
+                            <button type="button" class="btn btn-default dropdown-toggle usa" data-toggle="dropdown" style="border: 1px solid darkblue">
                                 Europe
                                 <span class="caret"></span>
                             </button>
-                            <ul class="dropdown-menu">
+                            <ul class="dropdown-menu" style="border: 1px solid darkblue">
                                 <li><a href="#">America</a></li>
                                 <li><a href="#">UK</a></li>
                                 <li><a href="#">South Asia</a></li>
@@ -84,12 +84,12 @@
                             </ul>
                         </div>
 
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-default dropdown-toggle usa" data-toggle="dropdown">
+                        <div class="btn-group" >
+                            <button type="button" class="btn btn-default dropdown-toggle usa" data-toggle="dropdown" style="border: 1px solid darkblue">
                                 Euro
                                 <span class="caret"></span>
                             </button>
-                            <ul class="dropdown-menu">
+                            <ul class="dropdown-menu" style="border: 1px solid darkblue">
                                 <li><a href="#">American Dollar</a></li>
                                 <li><a href="#">Pound</a></li>
                                 <li><a href="#">SGP Dollar</a></li>
@@ -107,7 +107,6 @@
                                 </li>
                                 <li><a href="{{url('/login-register')}}"><i class="fa fa-lock"></i> Login</a></li>
                             @else
-                                <li><a href="#"><i class="fa fa-star"></i> Wishlist</a></li>
                                 <li><a href="{{url('/orders')}}"><i class="fa fa-crosshairs"></i> Orders</a></li>
                                 <li><a href="{{url('/cart')}}"><i class="fa fa-shopping-cart"></i> Cart</a></li>
                                 <li><a href="{{url('/account')}}"><i class="fa fa-user"></i> Account</a></li>
@@ -123,7 +122,7 @@
 
         <div class="header-bottom"><!--header-bottom-->
             <div class="container">
-                <div class="row">
+                <div id="backgroundNav" class="row">
                     <div class="col-12">
                         <div class="navbar-header">
                             <button type="button" class="navbar-toggle" data-toggle="collapse"
@@ -134,19 +133,19 @@
                                 <span class="icon-bar"></span>
                             </button>
                         </div>
-                        <div class="row" style="background-color:#003C71;">
+                        <div class="row">
                             <div class="col-12">
                                 <ul class="nav navbar-nav collapse navbar-collapse mainmenu">
-                                    <li><a href="/"><i  style="font-size: 15px; color:#FFFFFF!important;" class="fas fa-home"></i></a></li>
+                                    <li><a href="/"><i  style="font-size: 15px" class="fas fa-home"></i></a></li>
                                     @foreach($mainCategories as $category)
                                         @if($category->status==1)
                                             <li>
-                                                <a style="font-size: 15px; color:#FFFFFF!important;"
+                                                <a style="font-size: 15px;"
                                                    href="{{ asset('products/'.$category->url) }}">{{ $category->name }}</a>
                                             </li>
                                         @endif
                                     @endforeach
-                                    <div class="pull-right" style="margin-left: 10px; margin-top: 10px">
+                                    <div class="pull-right" style="margin-left: 38px; margin-top: 10px; border: 1px solid darkblue;">
                                         <div class="search_box pull-right" style="color: #003C71">
                                             <input type="text" placeholder="Search" style="color: #003C71"/>
                                         </div>

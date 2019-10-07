@@ -3,11 +3,11 @@
 @section('content')
 
     <section>
-        <div class="container" style="margin-left: 150px; margin-right: 150px;">
+        <div class="container">
             <div class="row">
 
-                <div class="col-12">
-                    <h2 class="title-text-center">Contact us</h2><br>
+                <div class="col col-5" style="margin-left: 100px; margin-right: 100px; margin-top: 50px;">
+                    <h2 class="text-center">Contact us</h2><br>
                     {{--                       CONTACT FORM--}}
                     <div class="row">
                         <div class="contact-form">
@@ -39,8 +39,8 @@
                         </div>
                     </div>
 
-                    <div class="row" style="margin-bottom: 50px;">
-                        <div class="col-sm-6">
+                    <div class="row" style="margin-bottom: 20px;">
+                        <div class="col-sm-3 "  style="margin-left: 50px;">
                             <div class="contact-info">
                                 <h2 class="title">Contact Info</h2>
                                 <address>
@@ -51,7 +51,7 @@
                                 </address>
                             </div>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-offset-1 col-sm-3">
                             <div class="social-networks">
                                 <h2 class="title text-center">Our Social Networks</h2>
                                 <ul>

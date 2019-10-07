@@ -5,9 +5,9 @@
         <div class="container">
             <div class="breadcrumbs">
                 <ol class="breadcrumb">
-                    <li><a href="#">Home</a></li>
+                    <li><a href="{{ url('/') }}">Home</a></li>
                     <li class="active"><a href="{{ url('/orders') }}">Orders</a></li>
-                    <li class="active">{{ $orderDetails->id }}</li>
+                    <li class="active">{{ $orderDetails->name }}</li>
                 </ol>
             </div>
         </div>
