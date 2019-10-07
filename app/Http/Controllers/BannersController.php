@@ -33,7 +33,6 @@ class BannersController extends Controller
 
             if (empty($data['status'])){
                 $status = '0';
-            } else{
                 $status = '1';
             }
             $banner->status = $status;
@@ -73,7 +72,7 @@ class BannersController extends Controller
                     $extension = $image_tmp->getClientOriginalExtension();
                     $fileName = rand(111, 999999) . '.' . $extension;
                     $banner_path = 'images/frontend_images/banners/' . $fileName;
-                    Image::make($image_tmp)->resize(1140, 340)->save($banner_path);
+                    Image::make($image_tmp)->resize(1400, 600)->save($banner_path);
                 }
             }elseif(!empty($data['current_image'])){
                 $fileName = $data['current_image'];
