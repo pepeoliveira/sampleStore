@@ -32,8 +32,7 @@ class BannersController extends Controller
             }
 
             if (empty($data['status'])){
-                $status = '0';
-                $status = '1';
+                $status = 1;
             }
             $banner->status = $status;
 
@@ -51,9 +50,9 @@ class BannersController extends Controller
 
 
             if (empty($data['status'])){
-                $status = '0';
+                $status = 0;
             } else{
-                $status = '1';
+                $status = 1;
             }
 
             if (empty($data['title'])){
